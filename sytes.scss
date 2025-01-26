@@ -1,0 +1,52 @@
+// SCSS 格式，可以增加更多复杂的样式
+$primary-color: #003366;
+$secondary-color: #0066cc;
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f7fb;
+    color: #333;
+}
+
+header {
+    background-color: $primary-color;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+footer {
+    background-color: $primary-color;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: $secondary-color;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+h1, h2, h3, h4 {
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+ul li {
+    margin: 5px 0;
+}
+
+pre {
+    background-color: #eaeaea;
+    padding: 10px;
+    border-radius: 5px;
+}
