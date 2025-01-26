@@ -256,4 +256,4 @@
 
 ### License
 
-##### RCS.aGmua is licensed under the MIT License. See the [LICENSE](https://github.com/RinCynar/rcs/blob/main/LICENSE) file for more information.
+##### RCS.aGmua is licensed under the MIT License. See the [LICENSE](https://github.com/RinCynar/rcs.aGmua/blob/main/LICENSE) file for more information.
