@@ -272,7 +272,7 @@ def handle_command(user_input):
                 print("You are using the latest version.")
         except Exception:
             print(
-                "Failed to check for updates. If there haven't any network problems, please view https://rcva.san.tc"
+                "Failed to check for updates. If there haven't any network problems, please view https://aGmua.us.kg"
             )
     elif user_input.startswith("- "):
         decrypt_text(user_input)
