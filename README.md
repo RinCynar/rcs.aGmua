@@ -2,7 +2,7 @@
 
 ## Updates are only distributed on [this website](https://rcs.aGmua.dpdns.org) and [GitHub](https://github.com/RinCynar/RCS). Other channels are unofficial distribution channels. Please identify them yourself.
 
-### Latest version: 1.91 fix, [Download link](https://aGmua.dpdns.org), [GitHub Page](https://github.com/RinCynar/rcs.aGmua)
+### Latest version: 1.92, [Download link](https://aGmua.dpdns.org), [GitHub Page](https://github.com/RinCynar/rcs.aGmua)
 
 ### Overview
 

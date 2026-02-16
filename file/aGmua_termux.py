@@ -11,7 +11,7 @@ RCS_FOLDER = ".aGmua"
 KEY_FILE_TEMPLATE = os.path.join(RCS_FOLDER, "{}.rcs_keys")
 HISTORY_FILE_TEMPLATE = os.path.join(RCS_FOLDER, "{}.rcs_hst")
 OPT_FILE = "aGmua_opt.md"
-RCS_VER = 1.91 fix
+RCS_VER = 1.92
 DOWNLOAD_LINK = "https://aGmua.dpdns.org/file/aGmua_termux.py"
 UPDATE_URL = "http://aGmua.dpdns.org"
 
