@@ -10,9 +10,9 @@ RCS_FOLDER = ".aGmua"
 KEY_FILE_TEMPLATE = os.path.join(RCS_FOLDER, "{}.rcs_keys")
 HISTORY_FILE_TEMPLATE = os.path.join(RCS_FOLDER, "{}.rcs_hst")
 OPT_FILE = "aGmua_opt.md"
-RCS_VER = 1.91
-DOWNLOAD_LINK = "https://aGmua.us.kg/file/aGmua.py"
-UPDATE_URL = "http://aGmua.us.kg"
+RCS_VER = 1.91 fix
+DOWNLOAD_LINK = "https://aGmua.dpdns.org/file/aGmua.py"
+UPDATE_URL = "http://aGmua.dpdns.org"
 
 username = ""
 
@@ -271,7 +271,7 @@ def handle_command(user_input):
                 print("You are using the latest version.")
         except Exception:
             print(
-                "Failed to check for updates. If there haven't any network problems, please view https://aGmua.us.kg"
+                "Failed to check for updates. If there haven't any network problems, please view https://aGmua.dpdns.org"
             )
     elif user_input.startswith("- "):
         decrypt_text(user_input)
@@ -284,7 +284,7 @@ def interactive_mode():
     global username
 
     print_message(
-        f"aGmua {RCS_VER}, a text encryption tool based on RC4 encryption algorithm\nhttp://rincynar.us.kg, RinCynar\nType 'relp' for usage instructions"
+        f"aGmua {RCS_VER}, a text encryption tool based on RC4 encryption algorithm\nhttp://rincynar.dpdns.org, RinCynar\nType 'relp' for usage instructions"
     )
 
     username = get_input("Enter your username: ")

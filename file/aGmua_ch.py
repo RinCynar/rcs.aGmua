@@ -10,7 +10,7 @@ RCS_FOLDER = ".aGmua"
 KEY_FILE_TEMPLATE = os.path.join(RCS_FOLDER, "{}.rcs_keys")
 HISTORY_FILE_TEMPLATE = os.path.join(RCS_FOLDER, "{}.rcs_hst")
 OPT_FILE = "aGmua_opt.md"
-RCS_VER = 1.91
+RCS_VER = 1.91 fix
 
 username = ""
 
@@ -254,7 +254,7 @@ def interactive_mode():
 
     print("---Based on 1.70. For entertainment only, it is recommended to use the normal version---")
     print_message(
-        f"聯覺信標{RCS_VER}, \nhttp://aGmua.us.kg, RinCynar\n瓦爾特-楊 無論何時需要幫助，「帕姆」都會及時趕到，不過請不要故意尋它開心，上一個這麼做的人已經......"
+        f"聯覺信標{RCS_VER}, \nhttp://aGmua.dpdns.org, RinCynar\n瓦爾特-楊 無論何時需要幫助，「帕姆」都會及時趕到，不過請不要故意尋它開心，上一個這麼做的人已經......"
     )
 
     username = get_input("三月七 你好，歡迎入職星穹列車，我是三月七，星穹列車的成員，也是你的同事，現在，請先拍攝「入職照」.（用戶名）")
