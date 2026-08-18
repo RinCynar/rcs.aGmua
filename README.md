@@ -1,259 +1,98 @@
-## RCS.aGmua Tool Documentation
+# RCS.aGmua
 
-## Updates are only distributed on [this website](https://rcs.aGmua.dpdns.org) and [GitHub](https://github.com/RinCynar/RCS). Other channels are unofficial distribution channels. Please identify them yourself.
+RCS.aGmua is a cross-platform text utility built around the project's legacy RC4 format. It ships as a pure Python command-line tool and a Material You-style GUI powered by Tauri 2. The same web frontend is also available on the project website.
 
-### Latest version: 1.92, [Download link](https://aGmua.dpdns.org), [GitHub Page](https://github.com/RinCynar/rcs.aGmua)
+## Components
 
-### Overview
+- `rcs_agmua/`: shared Python RC4 implementation, storage layer, update checker, and CLI.
+- `web/`: browser and Tauri GUI. It implements encryption, decryption, key management, history, reset, update checks, and release downloads.
+- `src-tauri/`: Tauri 2 shell for Windows and Android packages.
+- `scripts/build_source_zip.py`: creates architecture-labelled Linux source archives.
+- `.github/workflows/`: GitHub Pages deployment and GitHub Release artifact builds.
 
-#### The RCS tool is a text encryption utility based on the RC4 encryption algorithm. It allows users to encrypt and decrypt text using custom keys, manage encryption keys, and maintain a history of encrypted and decrypted messages. The tool supports various commands for managing keys, checking for updates, and performing brute-force decryption attempts.
+## Python CLI
 
-#### Features
+The CLI uses only the Python standard library:
 
-##### Encrypt and Decrypt Text: Securely encrypt and decrypt text using the RC4 algorithm with custom keys.
+```bash
+python -m rcs_agmua.cli -i
+```
 
-##### Key Management: Easily add, delete, and display encryption keys.
+Commands:
 
-##### History Management: Maintain and display a history of encrypted and decrypted messages.
+```text
+<text>           Encrypt text
+- <hex>          Decrypt with all saved keys
+- <hex> -<num>   Decrypt with one key
+rak <key>        Add a key
+rdk -<num>       Delete a key
+rck              Display keys
+rsh              Show history
+rch              Clear history
+res              Restore the default configuration
+rcu              Check for updates
+relp             Show help
+rxit             Exit
+```
 
-##### Update Notifications: Check for updates and notify users of new versions.
+The former brute-force command and its implementation have been removed.
 
-##### Configuration Reset: Reset the tool to its default configuration.
+## GUI and website
 
-##### Brute-force Decryption: Perform brute-force decryption attempts with customizable key lengths.
+The GUI is the `web/` app packaged by Tauri. It stores browser data in `localStorage`; desktop and Android builds use the same local web storage provided by their WebView. No key or plaintext is sent to the GitHub Releases API.
 
-##### User-Friendly Commands: Intuitive commands for a smooth user experience.
+Run the website directly with any static HTTP server, or open `web/index.html` during development. The root `index.html` keeps the old update response marker and redirects browsers to `web/`.
 
-#### Requirements
+The Downloads view reads `https://api.github.com/repos/RinCynar/rcs.aGmua/releases/latest`. If that request fails, it falls back to the legacy `aGmua.dpdns.org` endpoint and links. The CLI uses the same GitHub-first, legacy-compatible fallback.
 
-##### Python 3.x
+## Build the GUI
 
-##### arc4 module
+Install Node.js, Rust, and the Tauri prerequisites for the target operating system, then run:
 
-##### requests module
+```bash
+npm install
+npm run dev
+npm run build
+```
 
-### Installation
+Windows targets:
 
-#### Ensure that Python and the required modules are installed:
+```bash
+npm run tauri build -- --target i686-pc-windows-msvc
+npm run tauri build -- --target x86_64-pc-windows-msvc
+npm run tauri build -- --target aarch64-pc-windows-msvc
+```
 
-##### pip install arc4 requests
+Android APK targets:
 
-### Usage
+```bash
+npm run tauri android init
+npm run tauri android build -- --apk --target i686
+npm run tauri android build -- --apk --target x86_64
+npm run tauri android build -- --apk --target armv7
+npm run tauri android build -- --apk --target aarch64
+```
 
-#### To start the interactive mode, run the script:
+Linux source archives:
 
-##### python aGmua.py -i
+```bash
+python scripts/build_source_zip.py --platform linux --arch x86 --version 2.0.0 --output dist/rcs-agmua-gui-linux-x86-source.zip
+python scripts/build_source_zip.py --platform linux --arch x64 --version 2.0.0 --output dist/rcs-agmua-gui-linux-x64-source.zip
+python scripts/build_source_zip.py --platform linux --arch arm64 --version 2.0.0 --output dist/rcs-agmua-gui-linux-arm64-source.zip
+```
 
-#### Commands
+The release workflow builds Windows executables, Android APKs, and Linux source ZIPs, then attaches them to a GitHub Release created from a `v*` tag.
 
-##### relp: Display usage instructions.
+## Compatibility and storage
 
-##### rak <new-key>: Add a new encryption key.
+The shared Python storage layer still understands the old raw `.rcs_keys` and `.rcs_hst` records. New records use a `v2:` base64 line format so binary ciphertext cannot corrupt newline-delimited history. The old username-derived filenames remain unchanged.
 
-##### rch: Clear encryption/decryption history.
+The published update response starts with the legacy `RCS <version>` marker and ends with a download URL. This lets old clients continue parsing the response while browsers use the new website.
 
-##### rck: Display the currently saved encryption keys.
+## Security note
 
-##### rdk -<key_number>: Delete a specified encryption key.
+RC4 is obsolete and does not provide modern confidentiality or integrity guarantees. This project preserves RC4 for compatibility and educational use; do not use it for passwords, credentials, private messages, or other sensitive data. A future secure mode should use an authenticated modern cipher such as ChaCha20-Poly1305 or AES-GCM.
 
-##### rxit: Exit the tool.
+## License
 
-##### rsh: Display encryption/decryption history.
-
-##### rc <text>: Perform a brute-force decryption on the specified text.
-
-##### res: Reset to default configuration.
-
-##### rcu: Check for updates.
-
-### Functions
-
-#### print_message(message)
-
-##### Prints a message to the console with newline characters before and after the message.
-
-#### get_input(prompt, default=None)
-
-##### Prompts the user for input. If no input is provided, returns the default value.
-
-#### load_keys()
-
-##### Loads encryption keys from the key file.
-
-#### save_keys()
-
-##### Saves encryption keys to the key file.
-
-#### reset()
-
-##### Resets the tool to its default configuration by deleting the key and history files and restoring the default key.
-
-#### add_key(new_key)
-
-##### Adds a new encryption key if it does not already exist.
-
-#### delete_key(key_number)
-
-##### Deletes a specified encryption key by its index number, unless it is the default key.
-
-#### utf16_to_bytes(s)
-
-##### Converts a UTF-16 string to bytes.
-
-#### rc4_encrypt(key, plaintext)
-
-##### Encrypts plaintext using the RC4 algorithm and the provided key.
-
-#### rc4_decrypt(key, ciphertext)
-
-##### Decrypts ciphertext using the RC4 algorithm and the provided key.
-
-#### bytes_to_hex(b)
-
-##### Converts bytes to a hexadecimal string.
-
-#### hex_to_bytes(h)
-
-##### Converts a hexadecimal string to bytes.
-
-#### choose_key_for_encryption()
-
-##### Prompts the user to choose a key for encryption from the available keys.
-
-#### choose_key_for_decryption()
-
-##### Displays the available keys and returns them for decryption attempts.
-
-#### save_history(record)
-
-##### Saves a record to the history file.
-
-#### display_history()
-
-##### Displays the history of encrypted and decrypted messages.
-
-#### clear_history()
-
-##### Clears the history of encrypted and decrypted messages.
-
-#### check_for_updates()
-
-##### Checks for updates to the tool by querying the update URL.
-
-#### handle_command(user_input)
-
-##### Handles user input commands and performs the appropriate actions.
-
-#### interactive_mode()
-
-##### Starts the interactive mode for the tool, allowing users to enter commands and encrypt/decrypt text.
-
-#### print_help()
-
-##### Prints the usage instructions for the tool.
-
-#### display_keys()
-
-##### Displays the currently saved encryption keys.
-
-#### decrypt_text(user_input)
-
-##### Decrypts the provided text using the specified key or all available keys.
-
-#### encrypt_text(plaintext)
-
-##### Encrypts the provided plaintext using the chosen key and saves the result to the history.
-
-#### bruteforce_decrypt(ciphertext)
-
-##### Performs a brute-force decryption attempt on the provided ciphertext using keys of specified lengths.
-
-### Example Usage
-
-#### Encrypting Text
-
-##### Enter interactive mode:
-
-###### python aGmua.py -i
-
-##### Provide the text to encrypt:
-
-###### # Hello, World!
-
-##### Choose a key for encryption or use the default key:
-
-###### # Choose a key number (default is 0): 0
-
-##### The encrypted text will be displayed and saved to the history.
-
-#### Decrypting Text
-
-##### Enter interactive mode:
-
-###### python aGmua.py -i
-
-##### Provide the encrypted text in the format - <encrypted_text>:
-
-###### # - 5D41402ABC4B2A76B9719D911017C592
-
-##### The tool will attempt to decrypt the text using all available keys and display the results.
-
-#### Adding a New Key
-
-##### Enter interactive mode:
-
-###### python aGmua.py -i
-
-##### Add a new key:
-
-##### # rak my-new-key
-
-#### Displaying History
-
-##### Enter interactive mode:
-
-###### python aGmua.py -i
-
-##### Display the history of encrypted and decrypted messages:
-
-###### # rsh
-
-### Feature Highlights
-
-#### Secure Text Encryption and Decryption
-
-##### The RCS.aGmua tool uses the RC4 encryption algorithm to securely encrypt and decrypt text. Users can choose from multiple encryption keys to enhance security.
-
-#### Easy Key Management
-
-##### The tool allows users to easily manage their encryption keys. Keys can be added, deleted, and displayed with simple commands.
-
-#### History Tracking
-
-##### All encrypted and decrypted messages are saved in a history file. Users can view and clear the history as needed, ensuring they can track their encryption activities.
-
-#### Update Notifications
-
-##### RCS.aGmua checks for updates and notifies users when a new version is available. This ensures that users always have access to the latest features and security improvements.
-
-#### Configuration Reset
-
-##### Users can reset the tool to its default configuration, which is useful if they need to start fresh or encounter issues with their current setup.
-
-#### Brute-force Decryption
-
-##### The tool includes a brute-force decryption feature that allows users to attempt decryption with keys of various lengths. This can be useful for recovering encrypted text when the key is unknown.
-
-#### User-Friendly Interface
-
-##### The RCS.aGmua tool provides a user-friendly interface with intuitive commands, making it easy for users to encrypt and decrypt text, manage keys, and view history without needing advanced technical knowledge.
-
-### Support and feedback
-
-##### If you have any questions or need help, please contact the development team: rincynar@gmail.com
-
-##### Thank you for using the RCS.aGmua tool software!
-
-### License
-
-##### RCS.aGmua is licensed under the MIT License. See the [LICENSE](https://github.com/RinCynar/rcs.aGmua/blob/main/LICENSE) file for more information.
+MIT. See [LICENSE](LICENSE).

@@ -1,0 +1,123 @@
+name: Build release artifacts
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  linux-source:
+    name: Linux ${{ matrix.arch }} source ZIP
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [x86, x64, arm64]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build source archive
+        run: python scripts/build_source_zip.py --platform linux --arch "${{ matrix.arch }}" --version "${GITHUB_REF_NAME#v}" --output "dist/rcs-agmua-gui-linux-${{ matrix.arch }}-source.zip"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-${{ matrix.arch }}-source
+          path: dist/*.zip
+
+  windows:
+    name: Windows ${{ matrix.name }} GUI
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: x86
+            target: i686-pc-windows-msvc
+          - name: x64
+            target: x86_64-pc-windows-msvc
+          - name: arm64
+            target: aarch64-pc-windows-msvc
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Rust target
+        shell: pwsh
+        run: rustup target add ${{ matrix.target }}
+      - name: Install frontend dependencies
+        run: npm install
+      - name: Build Windows executable
+        run: npm run tauri build -- --target ${{ matrix.target }}
+      - name: Collect executable
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          $exe = Get-ChildItem -Path "src-tauri/target/${{ matrix.target }}/release" -Filter "rcs-agmua.exe" -Recurse | Select-Object -First 1
+          if (-not $exe) { throw "Executable was not produced" }
+          Copy-Item $exe.FullName "dist/rcs-agmua-gui-windows-${{ matrix.name }}.exe"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-${{ matrix.name }}
+          path: dist/*.exe
+
+  android:
+    name: Android ${{ matrix.name }} APK
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: x86
+            target: i686
+          - name: x64
+            target: x86_64
+          - name: armv7
+            target: armv7
+          - name: armv8
+            target: aarch64
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install Rust Android target
+        run: |
+          rustup target add i686-linux-android x86_64-linux-android armv7-linux-androideabi aarch64-linux-android
+      - name: Install frontend dependencies
+        run: npm install
+      - name: Initialize Android project
+        run: npm run tauri android init
+      - name: Build APK
+        run: npm run tauri android build -- --apk --target ${{ matrix.target }}
+      - name: Collect APK
+        run: |
+          mkdir -p dist
+          apk=$(find src-tauri/gen/android -type f -name "*.apk" | head -n 1)
+          test -n "$apk"
+          cp "$apk" "dist/rcs-agmua-gui-android-${{ matrix.name }}.apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-${{ matrix.name }}
+          path: dist/*.apk
+
+  release:
+    name: Publish GitHub Release
+    needs: [linux-source, windows, android]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*
+          generate_release_notes: true
+

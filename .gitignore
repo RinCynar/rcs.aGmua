@@ -1,0 +1,16 @@
+.aGmua/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+node_modules/
+dist/
+build/
+target/
+src-tauri/gen/
+src-tauri/icons/*.png
+src-tauri/icons/*.ico
+src-tauri/icons/*.icns
+aGmua_opt.md
+rcs_opt.md
+

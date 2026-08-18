@@ -1,0 +1,164 @@
+<!-- RCS 2.0.0 -->
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="RCS.aGmua text encryption utility and release downloads">
+  <title>RCS.aGmua</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#tool" aria-label="RCS.aGmua home">
+      <span class="brand-mark">R</span>
+      <span>RCS.aGmua</span>
+    </a>
+    <nav class="main-nav" aria-label="Primary navigation">
+      <button class="nav-button active" data-view="tool">Tool</button>
+      <button class="nav-button" data-view="downloads">Downloads</button>
+      <button class="theme-button" id="theme-toggle" type="button">Dark mode</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="release-strip" aria-live="polite">
+      <div>
+        <span class="eyebrow">Latest release</span>
+        <strong id="release-strip-version">Checking GitHub Releases...</strong>
+      </div>
+      <button class="text-button" id="release-strip-button" type="button">View downloads</button>
+    </section>
+
+    <section class="view active" id="tool-view">
+      <div class="page-heading">
+        <span class="eyebrow">Local workspace</span>
+        <h1>Encrypt and manage text</h1>
+        <p>Use the browser tool with a username-scoped local vault.</p>
+      </div>
+
+      <section class="panel session-panel" id="login-panel">
+        <div>
+          <h2>Open a vault</h2>
+          <p>Your username identifies the local vault. Nothing is sent to the server.</p>
+        </div>
+        <form class="inline-form" id="login-form">
+          <label class="sr-only" for="username">Username</label>
+          <input id="username" autocomplete="off" placeholder="Username" required>
+          <button class="primary-button" type="submit">Open tool</button>
+        </form>
+      </section>
+
+      <section class="hidden" id="tool-panel">
+        <div class="session-bar">
+          <div>
+            <span class="eyebrow">Active vault</span>
+            <strong id="active-username"></strong>
+          </div>
+          <button class="outlined-button" id="change-user" type="button">Change user</button>
+        </div>
+
+        <div class="tool-grid">
+          <section class="panel workspace-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">Cipher workspace</span>
+                <h2>Encrypt or decrypt</h2>
+              </div>
+              <span class="status-dot" id="operation-status">Ready</span>
+            </div>
+            <label for="plaintext">Plain text</label>
+            <textarea id="plaintext" rows="6" placeholder="Enter text to encrypt"></textarea>
+            <div class="control-row">
+              <label class="compact-label" for="key-index">Key index</label>
+              <input class="small-input" id="key-index" inputmode="numeric" value="0" placeholder="All for decrypt">
+              <button class="primary-button" id="encrypt-button" type="button">Encrypt</button>
+              <button class="outlined-button" id="decrypt-button" type="button">Decrypt hex</button>
+            </div>
+            <label for="ciphertext">Hex ciphertext</label>
+            <textarea id="ciphertext" rows="6" placeholder="Paste hexadecimal ciphertext here"></textarea>
+          </section>
+
+          <section class="panel keys-panel">
+            <div class="panel-heading">
+              <div>
+                <span class="eyebrow">Key ring</span>
+                <h2>Saved keys</h2>
+              </div>
+              <span class="count" id="key-count">0</span>
+            </div>
+            <div class="key-list" id="key-list"></div>
+            <form class="stack-form" id="add-key-form">
+              <label for="new-key">Add a key</label>
+              <div class="control-row">
+                <input id="new-key" placeholder="New key" required>
+                <button class="primary-button" type="submit">Add</button>
+              </div>
+            </form>
+            <button class="danger-button" id="reset-button" type="button">Reset vault</button>
+          </section>
+        </div>
+
+        <section class="panel history-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="eyebrow">Encrypted local log</span>
+              <h2>History</h2>
+            </div>
+            <button class="outlined-button" id="clear-history" type="button">Clear history</button>
+          </div>
+          <ol class="history-list" id="history-list"></ol>
+          <p class="empty-state" id="empty-history">No history records yet.</p>
+        </section>
+
+        <section class="update-panel">
+          <div>
+            <span class="eyebrow">Updates</span>
+            <strong>Keep the tool current</strong>
+          </div>
+          <button class="outlined-button" id="check-update" type="button">Check for updates</button>
+          <span id="update-status" role="status"></span>
+        </section>
+      </section>
+    </section>
+
+    <section class="view" id="downloads-view">
+      <div class="page-heading">
+        <span class="eyebrow">GitHub Releases</span>
+        <h1>Download the current release</h1>
+        <p>Assets are read from the latest public release. Legacy links remain available as a fallback.</p>
+      </div>
+      <section class="panel release-panel">
+        <div class="release-header">
+          <div>
+            <span class="eyebrow">Current version</span>
+            <h2 id="release-version">Checking...</h2>
+          </div>
+          <a class="outlined-button link-button" id="release-page" href="https://github.com/RinCynar/rcs.aGmua/releases" target="_blank" rel="noreferrer">Release page</a>
+        </div>
+        <p id="release-message">Loading release assets...</p>
+        <div class="asset-grid" id="asset-grid"></div>
+      </section>
+      <section class="legacy-panel">
+        <div>
+          <span class="eyebrow">Compatibility</span>
+          <h2>Legacy downloads</h2>
+          <p>These links keep older update clients working while releases move to GitHub.</p>
+        </div>
+        <div class="legacy-links">
+          <a href="https://aGmua.dpdns.org/file/aGmua.zip">All legacy files</a>
+          <a href="https://aGmua.dpdns.org/file/aGmua.py">Legacy Python tool</a>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <span>RCS.aGmua</span>
+    <a href="https://github.com/RinCynar/rcs.aGmua" target="_blank" rel="noreferrer">Source on GitHub</a>
+    <span>MIT License</span>
+  </footer>
+  <script src="app.js" defer></script>
+</body>
+</html>
+<!-- https://github.com/RinCynar/rcs.aGmua/releases/latest

@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "RCS.aGmua",
+  "version": "2.0.0",
+  "identifier": "org.rincynar.rcsagmua",
+  "build": {
+    "frontendDist": "../web"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "RCS.aGmua",
+        "width": 1180,
+        "height": 820,
+        "minWidth": 360,
+        "minHeight": 620,
+        "resizable": true
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis", "msi"],
+    "shortDescription": "RCS.aGmua RC4 text utility",
+    "longDescription": "A local RC4 text utility with a Material You interface."
+  }
+}
+

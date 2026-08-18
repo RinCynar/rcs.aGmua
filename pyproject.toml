@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rcs-agmua"
+version = "2.0.0"
+description = "A cross-platform RC4 text utility with CLI and Material You web GUI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.scripts]
+rcs-agmua = "rcs_agmua.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["rcs_agmua*"]
+
