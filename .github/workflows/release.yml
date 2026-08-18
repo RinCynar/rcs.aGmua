@@ -51,7 +51,7 @@ jobs:
         shell: pwsh
         run: rustup target add ${{ matrix.target }}
       - name: Install frontend dependencies
-        run: npm install
+        run: npm ci
       - name: Build Windows executable
         run: npm run tauri build -- --target ${{ matrix.target }}
       - name: Collect executable
@@ -90,9 +90,11 @@ jobs:
         run: |
           rustup target add i686-linux-android x86_64-linux-android armv7-linux-androideabi aarch64-linux-android
       - name: Install frontend dependencies
-        run: npm install
+        run: npm ci
       - name: Initialize Android project
         run: npm run tauri android init
+      - name: Generate Android icons
+        run: npm run tauri icon app-icon.svg
       - name: Build APK
         run: npm run tauri android build -- --apk --target ${{ matrix.target }}
       - name: Collect APK
@@ -120,4 +122,3 @@ jobs:
         with:
           files: dist/**/*
           generate_release_notes: true
-

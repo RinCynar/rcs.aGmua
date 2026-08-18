@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 INCLUDE = (
     "README.md",
     "LICENSE",
+    "app-icon.svg",
     "pyproject.toml",
     "rcs_agmua",
     "web",
