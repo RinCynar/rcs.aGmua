@@ -4,6 +4,7 @@ const GITHUB_REPOSITORY = "RinCynar/rcs.aGmua";
 const GITHUB_RELEASE_API = `https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/latest`;
 const GITHUB_RELEASE_LIST_API = `https://api.github.com/repos/${GITHUB_REPOSITORY}/releases?per_page=10`;
 const GITHUB_RELEASE_PAGE = `https://github.com/${GITHUB_REPOSITORY}/releases`;
+const STATIC_RELEASE_PATH = "releases.json";
 const LEGACY_UPDATE_URL = "https://aGmua.dpdns.org";
 const LEGACY_DOWNLOADS = [
   { labelKey: "legacyPython", descriptionKey: "legacyPythonDescription", url: "https://aGmua.dpdns.org/file/aGmua.py" },
@@ -609,6 +610,12 @@ async function fetchJson(url) {
   return response.json();
 }
 
+async function fetchStaticRelease() {
+  const response = await fetch(STATIC_RELEASE_PATH, { cache: "no-store" });
+  if (!response.ok) return null;
+  return parseRelease(await response.json(), "githubSource");
+}
+
 async function fetchLegacyRelease() {
   const response = await fetch(LEGACY_UPDATE_URL, { cache: "no-store" });
   if (!response.ok) throw new Error(`Legacy endpoint ${response.status}`);
@@ -618,6 +625,13 @@ async function fetchLegacyRelease() {
 }
 
 async function fetchRelease() {
+  try {
+    const staticRelease = await fetchStaticRelease();
+    if (staticRelease) return staticRelease;
+  } catch (error) {
+    // The live API remains the fallback when the static snapshot is unavailable.
+  }
+
   try {
     const latest = parseRelease(await fetchJson(GITHUB_RELEASE_API), "githubSource");
     if (latest) return latest;

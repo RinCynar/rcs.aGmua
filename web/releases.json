@@ -1,0 +1,16 @@
+{
+  "tag_name": "v2.0.0",
+  "html_url": "https://github.com/RinCynar/rcs.aGmua/releases/tag/v2.0.0",
+  "assets": [
+    { "name": "rcs-agmua-gui-windows-x86.exe", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-windows-x86.exe" },
+    { "name": "rcs-agmua-gui-windows-x64.exe", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-windows-x64.exe" },
+    { "name": "rcs-agmua-gui-windows-arm64.exe", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-windows-arm64.exe" },
+    { "name": "rcs-agmua-gui-linux-x86-source.zip", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-linux-x86-source.zip" },
+    { "name": "rcs-agmua-gui-linux-x64-source.zip", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-linux-x64-source.zip" },
+    { "name": "rcs-agmua-gui-linux-arm64-source.zip", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-linux-arm64-source.zip" },
+    { "name": "rcs-agmua-gui-android-x86.apk", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-android-x86.apk" },
+    { "name": "rcs-agmua-gui-android-x64.apk", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-android-x64.apk" },
+    { "name": "rcs-agmua-gui-android-armv7.apk", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-android-armv7.apk" },
+    { "name": "rcs-agmua-gui-android-armv8.apk", "browser_download_url": "https://github.com/RinCynar/rcs.aGmua/releases/download/v2.0.0/rcs-agmua-gui-android-armv8.apk" }
+  ]
+}
